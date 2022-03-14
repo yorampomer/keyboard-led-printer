@@ -51,9 +51,13 @@ class Led:
         self._color_wipe(strip, Color(0, 0, 0), 10)
         arr = word_to_array(word)
 
-        scrolling = len(arr[0]) - 32
+        scrolling = max(len(arr[0]) - 32, 2)
         for s in range(0, scrolling, 2):
             split = arr[:,s:-1]
+            print(len(arr))
+            print(len(arr[0]))
+            print(len(split))
+            print(len(split[0]))
             it = np.nditer(split, flags=['f_index'])
             for i in it:
                 if it.index <= LED_COUNT:

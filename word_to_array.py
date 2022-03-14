@@ -3,6 +3,7 @@ from PIL import ImageFont
 from PIL import ImageDraw
 import numpy as np
 
+
 def char_to_pixels(text, path='arialbd.ttf', fontsize=14):
     """
     Based on https://stackoverflow.com/a/27753869/190597 (jsheperd)
@@ -18,14 +19,19 @@ def char_to_pixels(text, path='arialbd.ttf', fontsize=14):
     arr = arr[(arr != 0).any(axis=1)]
     return arr
 
+
 def display(arr):
     result = np.where(arr, '#', ' ')
     print('\n'.join([''.join(row) for row in result]))
 
+
 def word_to_array(word: str):
     fullarr = None
     for c in word.upper():
-        arr = char_to_pixels(c,path='./Cascadia.ttf',fontsize=12)
+        if c == " ":
+            arr = np.zeros((8, 1))
+        else:
+            arr = char_to_pixels(c, path='./Cascadia.ttf', fontsize=12)
         if fullarr is None:
             fullarr = arr
         else:

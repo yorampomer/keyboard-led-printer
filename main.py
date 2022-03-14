@@ -2,6 +2,7 @@ import time
 from scanner import Scanner
 from led import Led
 from word_to_array import word_to_array
+import random
 
 def load_mapping():
     while True:
@@ -18,10 +19,20 @@ def load_mapping():
             print(e)
             time.sleep(0.5)
 
+def load_unknown():
+    while True:
+        try:
+            with open("unknown.txt") as f:
+                text = f.read()
+
+            return text.split(",")
+        except Exception as e:
+            print(f"Unknown loading failed")
+            print(e)
+            time.sleep(0.5)
 
 # Main program logic follows:
 if __name__ == '__main__':
-    word_to_array("Welcome")
     try:
         led = Led()
         led.clear()
@@ -29,6 +40,7 @@ if __name__ == '__main__':
         time.sleep(0.5)
         led.clear()
         mapping = load_mapping()
+        unknown = load_unknown()
         scanner = Scanner()
         while True:
             barcode = scanner.get_barcode()
@@ -36,7 +48,7 @@ if __name__ == '__main__':
             if barcode in mapping:
                 mapped = mapping[barcode]
             else:
-                mapped = "unknown"
+                mapped = random.choice(unknown)
             print(mapped)
             led.print_word(mapped)
             time.sleep(2)
