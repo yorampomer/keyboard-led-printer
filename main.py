@@ -1,7 +1,7 @@
 import time
 from scanner import Scanner
 from led import Led
-
+from word_to_array import word_to_array
 
 def load_mapping():
     while True:
@@ -21,9 +21,13 @@ def load_mapping():
 
 # Main program logic follows:
 if __name__ == '__main__':
+    word_to_array("O")
     try:
         led = Led()
         led.clear()
+        for i in "hello":
+            led.print_word(str(i))
+            time.sleep(0.2)
         mapping = load_mapping()
         scanner = Scanner()
         while True:

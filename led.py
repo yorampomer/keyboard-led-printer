@@ -1,14 +1,18 @@
 from rpi_ws281x import Adafruit_NeoPixel, Color
 import time
+from word_to_array import word_to_array
+import numpy as np
+
 # LED strip configuration:
-LED_COUNT      = 200      # Number of LED pixels.
-LED_PIN        = 18      # GPIO pin connected to the pixels (18 uses PWM!).
-#LED_PIN        = 10      # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).
-LED_FREQ_HZ    = 800000  # LED signal frequency in hertz (usually 800khz)
-LED_DMA        = 10      # DMA channel to use for generating signal (try 10)
-LED_BRIGHTNESS = 255     # Set to 0 for darkest and 255 for brightest
-LED_INVERT     = False   # True to invert the signal (when using NPN transistor level shift)
-LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
+LED_COUNT = 200  # Number of LED pixels.
+LED_PIN = 18  # GPIO pin connected to the pixels (18 uses PWM!).
+# LED_PIN        = 10      # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).
+LED_FREQ_HZ = 800000  # LED signal frequency in hertz (usually 800khz)
+LED_DMA = 10  # DMA channel to use for generating signal (try 10)
+LED_BRIGHTNESS = 255  # Set to 0 for darkest and 255 for brightest
+LED_INVERT = False  # True to invert the signal (when using NPN transistor level shift)
+LED_CHANNEL = 0  # set to '1' for GPIOs 13, 19, 41, 45 or 53
+
 
 class Led:
     def __init__(self):
@@ -21,7 +25,7 @@ class Led:
             strip.setPixelColor(i, color)
             strip.show()
             if wait_ms:
-                time.sleep(wait_ms/1000.0)
+                time.sleep(wait_ms / 1000.0)
 
     def clear(self):
         strip = self._get_strip()
@@ -32,7 +36,8 @@ class Led:
             try:
                 if self._strip is not None:
                     return self._strip
-                strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
+                strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS,
+                                          LED_CHANNEL)
                 strip.begin()
                 self._strip = strip
                 self.clear()
@@ -43,4 +48,12 @@ class Led:
 
     def print_word(self, word):
         strip = self._get_strip()
-        self._color_wipe(strip, Color(100, 0, 0), 10)
+        self._color_wipe(strip, Color(0, 0, 0), 10)
+        arr = word_to_array(word)
+
+
+        it = np.nditer(arr, flags=['f_index'])
+        for x in it:
+            if x:
+                strip.setPixelColor(it.index, Color(10, 10, 10))
+                strip.show()
