@@ -1,0 +1,7 @@
+version: '3.8'
+
+services:
+  keyboard-led-printer:
+    image: keyboard-led-printer:0.0.1
+    restart: always
+    privileged: true
