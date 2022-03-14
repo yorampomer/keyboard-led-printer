@@ -21,13 +21,13 @@ def load_mapping():
 
 # Main program logic follows:
 if __name__ == '__main__':
-    word_to_array("O")
+    word_to_array("Welcome")
     try:
         led = Led()
         led.clear()
-        for i in "hello":
-            led.print_word(str(i))
-            time.sleep(0.2)
+        led.print_word("Welcome")
+        time.sleep(0.5)
+        led.clear()
         mapping = load_mapping()
         scanner = Scanner()
         while True:
@@ -39,5 +39,7 @@ if __name__ == '__main__':
                 mapped = "unknown"
             print(mapped)
             led.print_word(mapped)
+            time.sleep(2)
+            led.clear()
     except KeyboardInterrupt:
         led.clear()

@@ -22,13 +22,17 @@ def display(arr):
     result = np.where(arr, '#', ' ')
     print('\n'.join([''.join(row) for row in result]))
 
-
 def word_to_array(word: str):
+    fullarr = None
     for c in word.upper():
-        arr = char_to_pixels(c,path='./Cascadia.ttf',fontsize=9)
-        padded = np.pad(arr, ((1,1),(0,0)),constant_values=0)
-        padded = np.flip(padded, axis=0)
+        arr = char_to_pixels(c,path='./Cascadia.ttf',fontsize=12)
+        if fullarr is None:
+            fullarr = arr
+        else:
+            fullarr = np.concatenate((fullarr, arr), axis=1)
 
-        for i in range(0, len(padded[0]), 2):
-            padded[:, i] = np.flip(padded[:, i])
-        return padded
+    fullarr = np.flip(fullarr, axis=0)
+    print(list(range(0, len(fullarr[0]), 2)))
+    for i in range(0, len(fullarr[0]), 2):
+        fullarr[:, i] = np.flip(fullarr[:, i])
+    return fullarr
