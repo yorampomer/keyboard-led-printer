@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   keyboard-led-printer:
-    image: keyboard-led-printer:0.0.5
+    image: keyboard-led-printer:0.0.6
     restart: always
     privileged: true
     build: .
